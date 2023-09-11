@@ -1,0 +1,6 @@
+"0",""
+"0","#Another method just using count()"
+"0","##summary_table2 <- comm_data %>%group_by(sender)%>%count(sender)"
+"0","#Break down of each message and count"
+"0","##summary_table2 <- comm_data %>%group_by(sender)%>%*count(message)*"
+"0",""

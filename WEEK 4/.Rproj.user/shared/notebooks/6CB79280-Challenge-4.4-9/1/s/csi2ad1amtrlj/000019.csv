@@ -1,0 +1,4 @@
+"0",""
+"0","#another method"
+"0","##daily<-comm_data%>%group_by(date)%>%summarise(mean(sentiment))%>%arrange(date)"
+"0","  "

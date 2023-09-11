@@ -1,0 +1,3 @@
+"0",""
+"0","#Another method "
+"0","##summary_table2 <- comm_data %>%group_by(channel) %>%count(channel)"

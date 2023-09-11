@@ -1,0 +1,3 @@
+"0","# Mutate to add a new column ""sentiment_label"" based on sentiment scores"
+"0","comm_data<-comm_data %>% select(sentiment) %>% mutate(positive = as.logical(sentiment > 0), neutral = as.logical(sentiment == 0), negative = as.logical(sentiment < 0))"
+"0","print(comm_data)"

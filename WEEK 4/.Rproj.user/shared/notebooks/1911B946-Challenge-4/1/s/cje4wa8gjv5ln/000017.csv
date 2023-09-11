@@ -1,0 +1,3 @@
+"0","#Use distinct() to find unique senders"
+"0","unique_senders <- comm_data %>%distinct(sender)%>%select(sender)"
+"0","print(unique_senders)"

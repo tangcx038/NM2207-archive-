@@ -1,0 +1,3 @@
+"0","# Group by channel and count messages"
+"0","summary_table2 <- comm_data %>%group_by(channel) %>%summarise(count = n())"
+"0","print(summary_table2)"

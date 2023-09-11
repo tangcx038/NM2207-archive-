@@ -1,0 +1,267 @@
+---
+title: "Challenge-4"
+author: "Tang Ching Xian"
+date: "04 SEPT 2023"
+output: html_document
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 25px;
+border-radius: 5px;
+font-style: italic;
+}
+
+</style>
+
+## Questions
+<br>
+
+Load the "CommQuest2023.csv" dataset using the `read_csv()` command and assign it to a variable named "comm_data." 
+
+```{r, eval=TRUE,echo=TRUE}
+# Load Tidyverse
+library(tidyverse)
+# Read the CSV file and assign it to the variable "comm_data"
+comm_data <- read.csv("CommQuest2023_Larger.csv")
+comm_data_org <- read.csv("CommQuest2023_Larger.csv")
+```
+<br>
+
+
+#### Question-1: Communication Chronicles
+
+Using the select command, create a new dataframe containing only the "date," "channel," and "message" columns from the "comm_data" dataset.
+
+**Solution:**
+
+```{r, eval=TRUE,echo=TRUE}
+# Create a new dataframe with selected columns
+new_df1<- comm_data%>% select(date,channel,message)
+# Overview of new dataframe
+glimpse(new_df1)
+```
+<br>
+
+#### Question-2: Channel Selection
+
+Use the filter command to create a new dataframe that includes messages sent through the "Twitter" channel on August 2nd.
+
+**Solution:**
+
+```{r, eval=FALSE,echo=TRUE}
+# Create new dataframe with filtered data
+new_df2 <- comm_data %>%filter(channel == "Twitter", date == "2023-08-02")%>%select(channel,date,message)
+glimpse(new_df2)
+```
+<br>
+
+#### Question-3: Chronological Order
+
+Utilizing the arrange command, arrange the "comm_data" dataframe in ascending order based on the "date" column.
+
+**Solution:**
+
+```{r, eval=F,echo=TRUE}
+#Arrange the dataframe in ascending order based on the "date" column
+arranged_data <- comm_data %>%arrange(date)
+print(arranged_data)
+```
+<br>
+
+#### Question-4: Distinct Discovery
+
+Apply the distinct command to find the unique senders in the "comm_data" dataframe.
+
+**Solution:**
+
+```{r, eval=TRUE,echo=TRUE}
+#Use distinct() to find unique senders
+unique_senders <- comm_data %>%distinct(sender)%>%select(sender)
+print(unique_senders)
+```
+<br>
+
+#### Question-5: Sender Stats
+
+Employ the count and group_by commands to generate a summary table that shows the count of messages sent by each sender in the "comm_data" dataframe.
+
+**Solution:**
+
+```{r, eval=TRUE,echo=TRUE}
+# Group by sender and count messages
+summary_table <- comm_data %>%group_by(sender) %>%summarise(count = n())
+print(summary_table)
+
+#Another method just using count()
+##summary_table2 <- comm_data %>%group_by(sender)%>%count(sender)
+#Break down of each message and count
+##summary_table2 <- comm_data %>%group_by(sender)%>%*count(message)*
+
+```
+<br>
+
+#### Question-6: Channel Chatter Insights
+
+Using the group_by and count commands, create a summary table that displays the count of messages sent through each communication channel in the "comm_data" dataframe.
+
+**Solution:**
+
+```{r, eval=TRUE,echo=TRUE}
+# Group by channel and count messages
+summary_table2 <- comm_data %>%group_by(channel) %>%summarise(count = n())
+print(summary_table2)
+
+#Another method 
+##summary_table2 <- comm_data %>%group_by(channel) %>%count(channel)
+```
+<br>
+
+#### Question-7: Positive Pioneers
+
+Utilize the filter, select, and arrange commands to identify the top three senders with the highest average positive sentiment scores. Display their usernames and corresponding sentiment averages.
+
+**Solution:**
+
+```{r, eval=TRUE,echo=TRUE}
+# Filter for positive sentiment scores
+positive_data <- comm_data %>%
+  filter(sentiment> 0)
+
+# Group by sender and calculate the average sentiment score
+sender_avg_sentiment <- positive_data %>%
+  group_by(sender) %>%
+  summarise(avg_sentiment=mean(sentiment))
+
+# Arrange senders in descending order of average sentiment score
+top_senders <- sender_avg_sentiment %>%
+  arrange(desc(avg_sentiment))
+
+# Select the top three senders
+top_three_senders <- top_senders %>%
+  slice(1:3)
+
+# Display the top three senders and their corresponding sentiment averages
+print(top_three_senders)
+```
+<br>
+
+#### Question-8: Message Mood Over Time
+
+With the group_by, summarise, and arrange commands, calculate the average sentiment score for each day in the "comm_data" dataframe.
+
+**Solution:**
+
+```{r, eval=TRUE,echo=TRUE}
+# Group by date and calculate the average sentiment score for each day
+daily_avg_sentiment <- comm_data %>%
+  group_by(date) %>%
+  summarise(avg_sentiment = mean(sentiment))
+
+# Arrange the results in ascending order of date
+daily_avg_sentiment <- daily_avg_sentiment %>%
+  arrange(date)
+
+# Display the dataframe with daily average sentiment scores
+print(daily_avg_sentiment)
+
+#another method
+##daily<-comm_data%>%group_by(date)%>%summarise(mean(sentiment))%>%arrange(date)
+  
+```
+<br>
+
+#### Question-9: Selective Sentiments
+
+Use the filter and select commands to extract messages with a negative sentiment score (less than 0) and create a new dataframe.
+
+**Solution:**
+
+```{r, eval=FALSE,echo=TRUE}
+
+# Filter for messages with negative sentiment scores
+negative_sentiment_data <- comm_data %>%
+  filter(sentiment< 0)
+
+new_df3<-negative_sentiment_data
+print.Date(new_df3)
+
+#another method
+##negative<-comm_data%>%select(message,sentiment)%>%filter(sentiment<0)
+```
+<br>
+
+#### Question-10: Enhancing Engagement
+
+Apply the mutate command to add a new column to the "comm_data" dataframe, representing a sentiment label: "Positive," "Neutral," or "Negative," based on the sentiment score.
+
+**Solution:**
+
+```{r, eval=F,echo=TRUE}
+# Mutate to add a new column "sentiment_label" based on sentiment scores
+comm_data<-comm_data %>% select(sentiment) %>% mutate(positive = as.logical(sentiment > 0), neutral = as.logical(sentiment == 0), negative = as.logical(sentiment < 0))
+print(comm_data)
+
+
+#comm_data %>% select(sentiment) %>% mutate(sentiment_label = ifelse(as.logical(sentiment > 0), "Positive", ifelse(as.logical(sentiment < 0), "Negative", "Neutral")))
+#print(comm_data)
+```
+<br>
+
+#### Question-11: Message Impact
+
+Create a new dataframe using the mutate and arrange commands that calculates the product of the sentiment score and the length of each message. Arrange the results in descending order.
+
+**Solution:**
+
+```{r, eval=F,echo=TRUE}
+#SHINY ERROR, INTRA ERROR, UNABLE TO RESOLVE
+
+comm_data %>% mutate(a = sentiment*nchar(comm_data_org$message))%>%arrange(desc(a)) 
+print(comm_data)
+
+```
+<br>
+
+#### Question-12: Daily Message Challenge
+
+Use the group_by, summarise, and arrange commands to find the day with the highest total number of characters sent across all messages in the "comm_data" dataframe.
+
+**Solution:**
+
+```{r, eval=FALSE,echo=TRUE}
+# Group by date and calculate the total number of characters sent on each day
+daily_char_count <- comm_data %>%
+  group_by(date) %>%
+  summarise(total_characters = sum(nchar(message)))
+
+#note:sum(nchar(message) can be replaced by length(message)
+
+# Arrange the results in descending order of total_characters
+daily_char_count <- daily_char_count %>%
+  arrange(desc(total_characters))
+
+# Get the day with the highest total_characters
+day_with_highest_chars <- daily_char_count$day[1]
+
+# Optionally, you can print the day with the highest total_characters
+print(day_with_highest_chars)
+```
+<br>
+
+#### Question-13: Untidy data
+
+Can you list at least two reasons why the dataset illustrated in slide 10 is non-tidy? How can it be made Tidy?
+
+**Solution:** 
+1)X is not a data, can be left as NA to be recognised
+2)empty rows/observations
+3)+/- is not recognised 
+4) too many variables in a column

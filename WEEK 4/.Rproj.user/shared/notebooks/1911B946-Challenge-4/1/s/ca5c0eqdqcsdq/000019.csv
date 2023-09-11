@@ -1,0 +1,5 @@
+"0","# Load Tidyverse"
+"0","library(tidyverse)"
+"0","# Read the CSV file and assign it to the variable ""comm_data"""
+"0","comm_data <- read.csv(""CommQuest2023_Larger.csv"")"
+"0","comm_data_org <- read.csv(""CommQuest2023_Larger.csv"")"

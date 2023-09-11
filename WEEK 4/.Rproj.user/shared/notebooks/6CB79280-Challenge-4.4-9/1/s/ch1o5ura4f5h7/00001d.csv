@@ -1,0 +1,3 @@
+"0","#SHINY ERROR, INTRA ERROR, UNABLE TO RESOLVE"
+"0",""
+"0","comm_data %>% mutate(a = sentiment*nchar(comm_data_org$message))%>%arrange(desc(a)) "
