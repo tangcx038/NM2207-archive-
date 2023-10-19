@@ -1,0 +1,5 @@
+[2,"\n"]
+[1,"pandoc \n  to: html\n  output-file: about.html\n  standalone: true\n  title-prefix: ChingXian.github.io\n  section-divs: true\n  html-math-method: mathjax\n  wrap: none\n  default-image-extension: png\n  css:\n    - styles.css\n  toc: true\n  \nmetadata\n  document-css: false\n  link-citations: true\n  date-format: long\n  lang: en\n  editor: visual\n  theme: Morph\n  title: About NM2207\n  \n"]
+[1,"Output created: docs\\about.html\n\nPreparing to preview\n"]
+[1,"\r[1/8] WEEK 6\\test.Rmd\n"]
+[1,"\r\n\r\nprocessing file: test.Rmd\r\n(*) NOTE: I saw chunk options \"echo=TRUE,eval=TRUE}```{r,echo=TRUE,eval=TRUE\"\r\n please go to https://yihui.org/knitr/options\r\n (it is likely that you forgot to quote \"character\" options)\r\nError in parse(text = code, keep.source = FALSE) : \r\n  <text>:1:27: unexpected '}'\r\n1: alist( echo=TRUE,eval=TRUE}\r\n                              ^\r\nCalls: .main ... parse_params -> withCallingHandlers -> eval -> parse_only -> parse\r\nExecution halted\r\n"]
