@@ -1,0 +1,101 @@
+---
+title: "Challenge-6"
+author: "Tang Ching Xian"
+date: "18 September 2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Questions
+<br>
+
+#### Question-1: Countdown Blastoff (While Loop)
+
+Create a program that simulates a rocket launch countdown using a while loop. Start from 10 and countdown to "Blastoff!" with a one-second delay between each countdown number. Print a message when the rocket launches.
+
+**Hint:** You may want to use `cat` command to print the countdown and `Sys.sleep` for incorporating the delay
+
+**Solutions:**
+
+```{r, eval=T,echo=TRUE}
+  count <- 10
+  while (count > 0) {
+    print(count)
+    count <- count - 1
+    Sys.sleep(1)
+  }
+  cat("Blastoff!\n")
+
+count <- 10
+while (count > 0) {
+  if (count == 1) {
+    cat(count, "BLASTOFF!\n")
+  } else {
+    cat(count, "...")
+  }
+  Sys.sleep(1)
+  count <- count - 1
+}
+
+#involving function
+#countdown <- function() {
+#  count <- 10
+# while (count > 0) {
+#   cat(count,"... ")
+#   Sys.sleep(1)  
+# count <- count - 1
+# }
+# cat("BLASTOFF!\n")
+#}
+
+#countdown()
+```
+
+<br>
+
+#### Question-2: Word Reverser (for Loop)
+
+Develop a program that takes a user-entered word and uses a while loop to print the word's characters in reverse order. For example, if the user enters "hello," the program should print "olleh."
+
+**Hint:** You may want to use `substr` command to access each character of the input word, and `paste` command to join the reversed letters one at a time
+
+**Solutions:** 
+
+```{r, eval=T,echo=TRUE}
+# Prompt the user for input
+word <- readline(prompt = "Enter a word: CHING")
+
+# Initialize an empty string for the reversed word
+reversed_word <- ""
+
+# Get the length of the input word
+word_length <- nchar(word)
+
+# Iterate over the characters in reverse order and append them to the reversed word
+for (i in word_length:1) {
+  char <- substr(word, i, i)  
+  reversed_word <- paste(reversed_word, char, sep = "")  
+}
+
+# Print the reversed word
+cat("Reversed word:GNIHC", reversed_word, "\n")
+
+
+#library(tidyverse)
+
+#input_str <- "tired"
+#input_str <- unlist(str_split(input_str, ""))
+
+#new_str <- character(length(unlist(input_str)))
+
+#for (x in seq_along(unlist(input_str))) {
+  #new_str[x] <- input_str[length(input_str)-x+1]
+#}
+#paste(unlist(new_str),sep = "", collapse = "") #paste0(…, collapse) is equivalent to paste(…, sep = "", collapse)
+
+```
+
+<br>

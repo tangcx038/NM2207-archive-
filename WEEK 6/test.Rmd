@@ -1,0 +1,201 @@
+---
+title: "NM2207 QUIZ"
+author: "Tang Ching Xian"
+date: "2023-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r,echo=TRUE,eval=TRUE}
+
+# Load Tidyverse
+library(tidyverse)
+# Read the CSV file and assign it to the variable "titanic data"
+titanic_data <- read.csv("titanic.csv")
+# Overview of csv
+glimpse(titanic_data)
+survivors_class3 <- titanic_data %>%filter(Pclass == 3, Survived==1)
+
+print(survivors_class3)
+
+female_survivors_class3 <- survivors_class3%>%filter(Sex=="female")
+number_of_female<-female_survivors_class3%>%summarise(count = n())
+print(number_of_female)
+
+avg_age_in_class3 <- survivors_class3 %>%
+  summarise(mean_avg_age_in_class3 = mean(Age, na.rm = TRUE))
+mean(mean_avg_age_in_class3$avg_age_in_class3)
+
+avg1_age_in_class3 <- survivors_class3 %>%summarise(mean(survivors_class3$age))
+mean(avg1_age_in_class3)
+
+
+#survivors_class3_sorted <- survivors_class3[order(survivors_class3$Age, decreasing = TRUE), ]
+#survivors_class3_sorted
+
+survivors_class3_sorted <- survivors_class3 %>%
+  arrange(desc(Age))
+  
+plot(survivors_class3$PassengerId, survivors_class3$Age, xlab = "Passenger ID", ylab = "Age", type = "b")
+```
+
+
+
+
+                                           
+                                           
+                                           
+                                           
+                                           
+                                           
+                                           
+```{r,echo=TRUE,eval=TRUE}
+                                       
+# a. Filter the dataset to include only products in the Electronics category.
+filtered_data <- product_info[product_info$Category == "Electronics", ]
+
+# b. Calculate the average price of products in this category
+average_price <- mean(filtered_data$Price)                                         
+```                                             
+
+
+
+Confusing...
+
+Here's an example code that illustrates this issue:
+
+```{r,echo=TRUE,eval=TRUE}
+# Define a global variable
+global_var <- 10
+
+# Function that uses the global variable
+multiply_by_global <- function(x) {
+  global_var * x
+}
+
+# Function that modifies the global variable
+modify_global <- function() {
+  global_var <<- 20
+}
+
+# Call the functions
+result1 <- multiply_by_global(5)
+print(result1)  # Output: 50
+
+modify_global()
+result2 <- multiply_by_global(5)
+print(result2)  # Output: 100
+
+```
+
+In this example, the `multiply_by_global()` function relies on the global variable `global_var` to perform its calculation. However, the `modify_global()` function modifies the value of `global_var', result in the value of `global_var` is changed between function calls. This can make the code difficult to debug and reason about, especially in larger programs where the global variable may be modified by multiple functions.
+
+
+
+```{r,echo=TRUE,eval=TRUE}```{r,echo=TRUE,eval=TRUE}
+Question:
+  
+#Write a function called guessNum for a guessing game where the players must guess the value of a number stored in a variable answer,
+#a. In the first step, take the user's guess as the argument 
+#b. In the local scope of guessNum, initialize the value of the variable answer to be 15
+#c. Compare the user’s guess with the variable answer
+#d. Print out an appropriate message to the console, telling them if guess was above, below, or right on the number stored in answer
+#e. In the global scope, initialize the value of a variable guess to be 16. Write the function call for the guessNum function, using guess as the argument.
+
+Ans:
+# defining the guessNum function
+guessNum <- function(guess) {
+  # initializing the value of the variable answer
+  answer <- 15
+  
+  # comparing the user's guess with the answer
+  if (guess > answer) {
+    message("Your guess is above the number.")
+  } else if (guess < answer) {
+    message("Your guess is below the number.")
+  } else {
+    message("Congratulations! Your guess is right on the number.")
+  }
+}
+
+# initializing the value of the variable guess
+guess <- 16
+
+# calling the guessNum function with guess as the argument
+guessNum(guess)                 
+```
+
+
+```{r,echo=TRUE,eval=TRUE}
+
+Question:
+#Evaluate the code in RStudio. Explain what the code below does and the reason for the output.
+
+#multiply <- function(value){
+
+#function_inside_function<-function(multiplier){
+
+#return(multiplier*value)
+
+#}
+
+#return(function_inside_function(10))
+
+#}
+
+#function_inside_function(50)
+
+
+The code defines a function called "multiply" that takes a single argument called "value".
+Inside the "multiply" function, there is another function defined called "function_inside_function". This inner function takes a single argument called "multiplier".
+The inner function returns the product of "multiplier" and "value".
+Outside of the inner function, the "multiply" function returns the result of calling the inner function with the argument 10.
+When the code is evaluated, it will return the value of 100, which is the result of calling the inner function with 10 as the "multiplier" argument.
+When the code is evaluated, it will not output anything because the functions are defined but not executed.
+
+If we were to execute the "multiply" function and pass it a value, for example, `multiply(5)`, it would return 50. This is because the nested function "function_inside_function" is called with an argument of 10, and it multiplies this parameter with the "value" parameter (5 in this case), resulting in 50.
+
+However, when we try to call the nested function directly with "function_inside_function(50)", it will raise an error. This is because the nested function is only defined within the scope of the outer "multiply" function and cannot be accessed outside of it.
+```
+
+
+```{r,echo=TRUE,eval=TRUE}
+For Loop:
+
+    A for loop is used when you know in advance how many times you want to repeat a particular set of statements.
+    It consists of an initialization step, a condition to check at each iteration, and an update step.
+    The loop continues to execute as long as the condition is true.
+    Once the condition becomes false, the loop terminates.
+
+Here's a basic example in R of a for loop that prints numbers from 1 to 5:
+
+R
+
+for (i in 1:5) {
+  print(i)
+}
+
+While Loop:
+
+    A while loop is used when you want to repeat a set of statements as long as a specific condition is true.
+    Unlike the for loop, a while loop does not require you to know in advance how many iterations are needed.
+    It continues executing as long as the condition remains true, and when the condition becomes false, the loop stops.
+
+Here's an example in R of a while loop that prints numbers from 1 to 5:
+
+R
+
+i <- 1
+while (i <= 5) {
+  print(i)
+  i <- i + 1
+}
+```
+
+

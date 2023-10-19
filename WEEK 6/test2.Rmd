@@ -1,0 +1,76 @@
+---
+title: "Untitled"
+author: "Tang Ching Xian"
+date: "2023-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+```{r,echo=TRUE,eval=TRUE}
+
+# Load Tidyverse
+library(tidyverse)
+# Read the CSV file and assign it to the variable "titanic data"
+titanic_data <- read.csv("titanic.csv")
+# Overview of csv
+glimpse(titanic_data)
+survivors_class3 <- titanic_data %>%filter(Pclass == 3, Survived==1)
+print(survivors_class3)
+
+female_survivors_class3 <- survivors_class3%>%filter(Sex=="female")
+number_of_female<-female_survivors_class3%>%summarise(count = n())
+print(number_of_female)
+
+
+mean <- survivors_class3%>%filter(Sex=="female")
+mean_age<-survivors_class3%>%summarise(mean_age = mean(Age, na.rm = TRUE))
+mean_age
+
+
+avg_age_in_class3 <- titanic_data %>%
+  filter(Pclass == 3) %>%
+  summarise(avg_age_in_class3 = mean(Age, na.rm = TRUE))
+
+mean(avg_age_in_class3$avg_age_in_class3)
+
+mean_age_survivors_class3 <- survivors_class3 %>%  #no filter...
+  summarise(mean_age = mean(Age, na.rm = TRUE)) %>%
+  pull(mean_age)
+
+avg1_age_in_class3 <- survivors_class3 %>%summarise(mean(survivors_class3$age)) #no filter...
+mean(avg1_age_in_class3)
+
+
+#survivors_class3_sorted <- survivors_class3[order(survivors_class3$Age, decreasing = TRUE), ]
+#survivors_class3_sorted
+
+survivors_class3_sorted <- survivors_class3 %>%
+  arrange(desc(Age))
+  
+plot(survivors_class3$PassengerId, survivors_class3$Age, xlab = "Passenger ID", ylab = "Age", type = "b")
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
