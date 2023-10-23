@@ -50,32 +50,25 @@ library (shiny)
 # Reading the CSV files
 energy_saved <- read.csv('2003_2022_waste.csv')
 
-
-
 waste_03_22 <- read.csv('waste_energy_stat.csv')
 
-
-# Renaming columns and mutating the data to convert values from kilotonnes to tonnes
-clean_waste_03_22 <- energy_saved %>%
+# Cleaning Data 1
+clean_waste_03_22 <- waste_03_22 %>%
   rename(
-    waste_type = "waste_type",
-    total_waste_generated_tonne = "total_generate_1k_tonnes",
-    total_waste_recycled_tonne = "total_recycled_1k_tonnes",
-    year = "year"
+    waste_type = "Waste Type",
+    total_waste_generated_tonne = "Total Generated ('000 tonnes)",
+    total_waste_recycled_tonne = "Total Recycled ('000 tonnes)",
+    year = "Year"
   ) %>%
   mutate(
     total_waste_generated_tonne = total_waste_generated_tonne * 1000,
     total_waste_recycled_tonne = total_waste_recycled_tonne * 1000
   )
-
-
-# Filtering waste_03_22 dataset for specific years and waste types
-# Ensure that "year" is numeric or integer
-
-wastestates <- clean_waste_03_22 %>%
+----
+#Cleaning Data 2
+wastestates <- waste_03_22 %>%
   filter(year %in% 2003:2022,
-         waste_type %in% c("Plastics", "Ferrous Metals", "Non-ferrous Metals", "Glass", "Food"))
-
+         waste_type %in% c("Plastics", "Ferrous metals", "Non-ferrous metal", "Glass", "Food"))
 
 #Let's add recycling rate into our DataFrame as we will be using it later to analysis.
 
@@ -88,7 +81,7 @@ clean_waste_03_22$recycling_rate <- round(
 )
 
 # Display the cleaned data
-clean_waste_03_22
+head(clean_waste_03_22)
 
 # R Markdown code for data analysis and visualization
 
