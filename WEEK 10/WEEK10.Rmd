@@ -46,17 +46,17 @@ library (tidyverse)
 library (plotly)
 #install.packages("shiny")
 library (shiny)
+#install
+library(dplyr)
 
 # Reading the CSV files
-energy_saved <- read.csv('2003_2022_waste.csv')
+waste_03_22 <- read.csv('2003_2022_waste.csv')
 
-
-
-waste_03_22 <- read.csv('waste_energy_stat.csv')
+energy_saved <- read.csv('waste_energy_stat.csv')
 
 
 # Renaming columns and mutating the data to convert values from kilotonnes to tonnes
-clean_waste_03_22 <- energy_saved %>%
+clean_waste_03_22 <- waste_03_22 %>%
   rename(
     waste_type = "waste_type",
     total_waste_generated_tonne = "total_generate_1k_tonnes",
@@ -68,18 +68,21 @@ clean_waste_03_22 <- energy_saved %>%
     total_waste_recycled_tonne = total_waste_recycled_tonne * 1000
   )
 
+---
+  energy_saved
+---
 
 # Filtering waste_03_22 dataset for specific years and waste types
-# Ensure that "year" is numeric or integer
-
-wastestates <- clean_waste_03_22 %>%
+wasteselected <- clean_waste_03_22 %>%
   filter(year %in% 2003:2022,
-         waste_type %in% c("Plastics", "Ferrous Metals", "Non-ferrous Metals", "Glass", "Food"))
+         waste_type %in% c("Plastics", "Ferrous Metals", "Non-Ferrous Metals", "Glass", "Food"))%>%
+  arrange(waste_type)
 
-
-#Let's add recycling rate into our DataFrame as we will be using it later to analysis.
-
-# R Markdown code for adding recycling_rate to clean_waste_18_20
+---
+          #problem: missing data for Food and Non-Ferrous Metals
+---
+  
+### Calculating and adding recycling rate into DataFrame for analysis.
 
 # Calculate recycling_rate and round to 2 decimal places
 clean_waste_03_22$recycling_rate <- round(
@@ -90,46 +93,39 @@ clean_waste_03_22$recycling_rate <- round(
 # Display the cleaned data
 clean_waste_03_22
 
-# R Markdown code for data analysis and visualization
+---
+   #managed to work 
+---
 
-# Combine clean_waste_18_20 and clean_waste_03_17, sort by year
-data <- bind_rows(clean_waste_18_20, clean_waste_03_17) %>%
-  arrange(year)
 
-# Filter overall waste types
-overall <- data %>%
-  filter(waste_type %in% c("Overall", "Total"))
-
-# Create a bar plot for Waste Generated and Waste Recycled
-fig <- plot_ly() %>%
+# Bar Plot for Waste Generated and Waste Recycled
+fig <- plot_ly(
+  x = ~overall$year,
+  y = ~overall$total_waste_generated_tonne,
+  type = "bar",
+  name = "Waste Generated"
+) %>%
   add_trace(
-    type = "bar",
-    x = ~overall$year,
-    y = ~overall$total_waste_generated_tonne,
-    name = "Waste Generated"
-  ) %>%
-  add_trace(
-    type = "bar",
     x = ~overall$year,
     y = ~overall$total_waste_recycled_tonne,
+    type = "bar",
     name = "Waste Recycled"
   )
 
 fig
 
-# Clean the waste_type column
-data$waste_type <- gsub("Non-ferrous metal|Non-ferrous metals", "Non-Ferrous Metal", data$waste_type)
-data$waste_type <- gsub("Plastics", "Plastic", data$waste_type)
-data$waste_type <- gsub("Ferrous metal", "Ferrous Metal", data$waste_type)
-data$waste_type <- gsub("Paper/Cardboard", "Paper", data$waste_type)
+---
+  #bar graph not coming out!
+--- 
+  #need help to merge the two dataset!
+---
+  #add on the total energy saved
+total_data$total_energy_saved <-  wasteselected$total_waste_generated_tonne * energy_saved
+```
+###Analysis from the bar chart
+There has been a steady increasing in recycling effort as we see an increase in waste generated. However we can see that 2018 to 2020 there is a dip in recycling effort and waste generated. It could be because of the covid-19 situation. We are unable to tell whether the bar graph tells us an increase or decrease in recycling effort therefore we will generate a graph using the recycling rate. 
 
-# Merge data with clean_energy_saved
-total_data <- merge(data, clean_energy_saved, by.x = "waste_type", by.y = "material", all.x = TRUE, all.y = FALSE)
-
-# Clean energy_saved column
-total_data$energy_saved <- as.numeric(gsub("kWh", "", total_data$energy_saved, fixed = TRUE))
-total_data$energy_saved <- round(total_data$energy_saved)
-
+```{r, eval=T,echo=TRUE}
 # Calculate total_energy_saved
 total_data$total_energy_saved <- total_data$total_waste_recycled_tonne * total_data$energy_saved
 
@@ -167,9 +163,27 @@ tail(annual_energy_savings)
 
 
 ```
+##Seasonal Patterns:
 
+    Hypothesis: There might be seasonal variations in waste generation and recycling, impacting energy savings.
+    Question: Do certain waste types exhibit seasonal patterns in energy savings?
     
     Include the challenges and errors that you faced and how you overcame them.
+    
+##Comparison Across Materials:
+
+    Hypothesis: Different materials (plastics, metals, glass) may exhibit distinct patterns in energy savings and recycling rates.
+    Question: How do energy savings and recycling rates compare among different materials?
+    
+##Efficiency of Recycling Processes:
+
+    Hypothesis: Certain waste types may have a higher recycling efficiency, leading to more energy savings per tonne recycled.
+    Question: How does the energy saved per tonne vary across different waste types?
+
+##Impact of Recycling Initiatives:
+
+    Hypothesis: Over the years, increased recycling initiatives may have positively impacted energy savings.
+    Question: Is there a noticeable trend in energy savings per waste type over the years?
     
 #Problem Encounter 1
 ```{r}
